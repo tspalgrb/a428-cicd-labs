@@ -35,10 +35,10 @@ node {
         }
     }
 
-    stage('Deploy E2') {
+    stage('Deploy EC2') {
         echo 'Deploying application...'
         echo 'Build & push docker image...' 
-        sh 'docker build -t ${dockerImagePush} .'
+        sh "docker build -t ${dockerImagePush} ."
         withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASSWORD')]) {
             sh """
             echo ${env.DOCKER_PASSWORD} | docker login -u ${env.DOCKER_USER} --password-stdin
@@ -57,7 +57,7 @@ node {
                 \"
             """
         }
-        sh 'docker logout'
+        sh "docker logout"
         sleep(60)
     }
 }
