@@ -52,7 +52,7 @@ node {
                 docker stop ${appName} || true
                 docker rm -f ${appName} || true
                 docker run -d --name ${appName} -p 3000:80 ${dockerImagePush}
-                sleep 5
+                curl http://localhost:3000
                 docker logs ${appName}
                 \"
             """
