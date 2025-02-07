@@ -16,12 +16,17 @@ node {
             stage('Test') {
                 echo 'Running tests...'
                 sh './jenkins/scripts/test.sh'
+
+                input message: 'Lanjutkan ke tahap Deploy? (Klik "Proceed" untuk melanjutkan ke tahap Deploy)'
             }
 
             stage('Deploy') {
                 echo 'Deploying application...'
                 sh './jenkins/scripts/deliver.sh'
-                input message: 'Sudah selesai menggunakan React App? (Klik "Proceed" untuk mengakhiri)'
+
+                echo 'Waiting for 60 seconds...'
+                sleep(60)
+
                 echo 'Stopping application...'
                 sh './jenkins/scripts/kill.sh'
             }
