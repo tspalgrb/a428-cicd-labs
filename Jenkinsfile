@@ -48,10 +48,12 @@ node {
         sshagent(['ec2-ssh-key']) {
             sh """
                 ssh -o StrictHostKeyChecking=no -i ${env.SSH_KEY_PATH} ${env.SSH_USER}@${awsInstanceIP} \"
+                hostnamectl
                 docker pull ${dockerImagePush}
                 docker stop ${appName} || true
                 docker rm -f ${appName} || true
                 docker run -d --name ${appName} -p 3000:80 ${dockerImagePush}
+                sleep 5
                 curl http://localhost:3000
                 docker logs ${appName}
                 \"
